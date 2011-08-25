@@ -1,0 +1,26 @@
+# OSX
+.DS_Store
+Icon?
+._*
+.Spotlight-V100
+.Trashes
+
+# Vim
+.*.sw[a-z]
+Session.vim
+
+# Emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+.elc
+auto-save-list
+tramp
+
+# Ruby preferences
+/.bundle
+.rbenv-version
+.rvmrc
+tags
+TAGS
