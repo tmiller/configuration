@@ -1,28 +1,37 @@
-# Bash Completion
-if [ -f `brew --prefix`/etc/bash_completion ] ; then
-  . `brew --prefix`/etc/bash_completion
-fi
+# If not running interactively, don't do anything
+[[ $- != *i* ]] && return
 
-# Hashrocket settings
-HASHROCKET_DIR="$HOME/projects"
-HASHROCKET_AUTHOR_TMILLER="Tom Miller"
+# Load correct configuration for environment
+if [[ $(uname) == 'Darwin' && -f "${HOME}/.bashrc.osx" ]]; then
+  source ~/.bashrc.osx
+elif [[ $(uname) == 'Linux' && -f "${HOME}/.bashrc.linux" ]]; then
+ source ~/.bashrc.linux
+fi
 
 # Personal settings
 shopt -s globstar autocd
 
+# Environemnt settings
+EDITOR=vim
+VISUAL="$EDITOR"
 GIT_EDITOR="$EDITOR"
-PATH="$HOME/android-sdk/platform-tools:$HOME/bin:/usr/texbin:$PATH"
+CLICOLOR=1
+LS_COLORS='di=31:ln=34:ex=32'
 
-# rbenv settings
-PATH="$HOME/.rbenv/bin:$PATH"
+# Initialize rbenv
 eval "$(rbenv init -)"
-PATH=".bundle/bin:$PATH"
 
-# tmux settings
-alias tmux="TERM=screen-256color-bce tmux -2"
+# Setup PATH properly
+for dir in /usr/local/bin "${HOME}/local/bin" "${HOME}/.rbenv/bin" "${HOME}/.rbenv/shims" bundle/bin; do
+  case "$PATH" in
+    *:"$dir":*) PATH="$(echo "$PATH"|sed -e "s#:$dir##")"
+  esac
+  PATH="${dir}:${PATH}"
+done
 
-# export ENV vars
-export PATH GIT_EDITOR
+export EDITOR VISUAL GIT_EDITOR CLICOLOR LS_COLORS
 
 # shortcuts
 alias bundle-init='bundle install --path=.bundle/gems --binstubs=.bundle/bin'
+alias tmux="TERM=screen-256color tmux -2"
+alias ls='ls --color=auto'

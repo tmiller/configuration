@@ -1,0 +1,12 @@
+# Homebrew bash completion
+if [ -f `brew --prefix`/etc/bash_completion ] ; then
+  . `brew --prefix`/etc/bash_completion
+fi
+
+# Hashrocket settings
+HASHROCKET_DIR="${HOME}/projects"
+HASHROCKET_AUTHOR_TMILLER="Tom Miller"
+PATH="${HOME}/android-sdk/platform-tools:${HOME}/bin:/usr/texbin:${PATH}"
+TERM=xterm-256color
+
+export HASHROCKET_DIR HASHROCKET_AUTHOR_TMILLER PATH TERM

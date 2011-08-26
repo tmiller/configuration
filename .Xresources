@@ -1,0 +1,34 @@
+xterm*background: #242424
+xterm*foreground: #e3e0d7
+
+! Black Dark/Light
+xterm*color0: #080808
+xterm*color8: #242424
+
+! Red Dark/Light
+xterm*color1: #e5786d
+xterm*color9: #e5786d
+
+! Green Dark/Light
+xterm*color2: #95e454
+xterm*color10: #cae982
+
+! Yellow Dark/Light
+xterm*color3: #ffdb9b
+xterm*color11: #eadead
+
+! Blue Dark/Light
+xterm*color4: #88b8f6
+xterm*color12: #88b8f6
+
+! Magenta Dark/Light
+xterm*color5: #ff75f8
+xterm*color13: #cd23c1
+
+! Cyan Dark/Light
+xterm*color6: #00c7c7
+xterm*color14: #00ffff
+
+! Light Grey / White
+xterm*color7: #9c998e
+xterm*color15: #e3e0d7
