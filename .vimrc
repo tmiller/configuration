@@ -36,7 +36,7 @@ set ruler
 set number
 set list
 set listchars=tab:>\ ,trail:~
-set laststatus=3
+set laststatus=2
 
 " Tab completion
 set wildmode=list:longest,full

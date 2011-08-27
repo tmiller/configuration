@@ -19,10 +19,10 @@ CLICOLOR=1
 LS_COLORS='di=31:ln=34:ex=32'
 
 # Initialize rbenv
-eval "$(rbenv init -)"
+eval "$("${HOME}/.rbenv/bin/rbenv" init -)"
 
 # Setup PATH properly
-for dir in /usr/local/bin "${HOME}/local/bin" "${HOME}/.rbenv/bin" "${HOME}/.rbenv/shims" bundle/bin; do
+for dir in /usr/local/bin "${HOME}/local/bin" "${HOME}/.rbenv/bin" "${HOME}/.rbenv/shims" .bundle/bin; do
   case "$PATH" in
     *:"$dir":*) PATH="$(echo "$PATH"|sed -e "s#:$dir##")"
   esac
