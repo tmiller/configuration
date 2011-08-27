@@ -3,9 +3,9 @@
 
 # Load correct configuration for environment
 if [[ $(uname) == 'Darwin' && -f "${HOME}/.bashrc.osx" ]]; then
-  source ~/.bashrc.osx
+  source "${HOME}/.bashrc.osx"
 elif [[ $(uname) == 'Linux' && -f "${HOME}/.bashrc.linux" ]]; then
- source ~/.bashrc.linux
+ source "${HOME}/.bashrc.linux"
 fi
 
 # Personal settings
@@ -35,3 +35,5 @@ export EDITOR VISUAL GIT_EDITOR CLICOLOR LS_COLORS
 alias bundle-init='bundle install --path=.bundle/gems --binstubs=.bundle/bin'
 alias tmux="TERM=screen-256color tmux -2"
 alias ls='ls --color=auto'
+
+[ -f "${HOME}/.projectrc" ] && source "${HOME}/.projectrc"
