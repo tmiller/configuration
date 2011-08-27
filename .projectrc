@@ -1,0 +1,87 @@
+# ~/.projectrc
+# vim:set ft=sh sw=2 sts=2:
+
+[ -e "$PROJECT_DIR" ] || PROJECT_DIR="$HOME/projects"
+[ -e "$DEFAULT_GIT_REPOT" ] || DEFAULT_GIT_REPOT="luckie"
+
+export PROJECT_DIR
+
+pcd() {
+  cd "$PROJECT_DIR/$1"
+}
+
+pclone() {
+  local url basename example new
+
+  # Clone the repository if it exists
+  basename="`basename $1 .git`"
+  if [ ! -d "$PROJECT_DIR/$basename" ]; then
+    new=1
+    case "$1" in
+      *:*) url="$1" ;;
+      */*) url="git@github.com:${1}.git" ;;
+      *)   url="git@github.com:${DEFAULT_GIT_REPOT}/${1}.git" ;;
+    esac
+    git clone "$url" "$PROJECT_DIR/$basename" || return 1
+    for example in "$PROJECT_DIR/$basename"/config/*.example.yml; do
+      cp "$example" "${example%.example.yml}.yml"
+    done 2>/dev/null
+    if [ -f "$PROJECT_DIR/$basename/.rvmrc" ] && command -v __rvm_trust_rvmrc >/dev/null; then
+      __rvm_trust_rvmrc "$PROJECT_DIR/$basename/.rvmrc"
+    fi
+  fi
+  pcd "$basename"
+
+  # Execute after merge on rebase causing ctags to run
+  if [ ! -f .git/hooks/post-rewrite ]; then
+    echo '#!/bin/sh' > .git/hooks/post-rewrite
+    echo 'GIT_DIR="$(dirname "$(dirname "$0")")"' >> .git/hooks/post-rewrite
+    echo 'export GIT_DIR' >> .git/hooks/post-rewrite
+    echo 'case "$1" in' >> .git/hooks/post-rewrite
+    echo '  rebase) exec "$GIT_DIR/hooks/post-merge" 0 rebase ;;' >> .git/hooks/post-rewrite
+    echo 'esac' >> .git/hooks/post-rewrite
+  fi
+
+  # Run bundle check before commit
+  if [ ! -f .git/hooks/pre-commit ]; then
+    echo '#!/bin/sh' > .git/hooks/pre-commit
+    echo 'git diff --exit-code --cached -- Gemfile Gemfile.lock >/dev/null || bundle check' >> .git/hooks/pre-commit
+  fi
+
+  # Automatically run ctags after checkout commit and merge
+  if [ ! -f .git/hooks/ctags ]; then
+    echo '#!/bin/sh' > .git/hooks/ctags
+    echo 'rm -f .git/tags' >> .git/hooks/ctags
+    echo 'ctags --tag-relative -f .git/tags --exclude=.git --exclude=.bundle --exclude=db --exclude=public/uploads --exclude=vendor --exclude=tmp --languages=-javascript,html,sql -R' >> .git/hooks/ctags
+    chmod +x .git/hooks/ctags
+    for basename in post-checkout post-commit post-merge; do
+      echo '#!/bin/sh' > .git/hooks/$basename
+      echo '$GIT_DIR/hooks/ctags >/dev/null 2>&1 &' >> .git/hooks/$basename
+      chmod +x .git/hooks/$basename
+    done
+    .git/hooks/ctags
+  fi
+
+  # Automatically run bundle after checkout
+  if [ ! -f .git/hooks/bundle ]; then
+    echo '#!/bin/sh' > .git/hooks/bundle
+    echo 'unset GIT_DIR' >> .git/hooks/bundle
+    echo 'if [ -f Gemfile ] && command -v bundle >>/dev/null; then' >> .git/hooks/bundle
+    echo '  echo 'Bundling...'' >> .git/hooks/bundle
+    echo '  bundle check >>/dev/null || bundle | grep -v '^Using ' | grep -v ' is complete'' >> .git/hooks/bundle
+    echo '  true' >> .git/hooks/bundle
+    echo 'fi' >> .git/hooks/bundle
+    chmod +x .git/hooks/bundle
+    echo 'if command -v hookup >/dev/null; then' >> .git/hooks/post-checkout
+    echo '  hookup post-checkout "$@"' >> .git/hooks/post-checkout
+    echo "elif git diff --name-only \$1 \$2 | egrep -q '^Gemfile|\\.gemspec\$'; then" >> .git/hooks/post-checkout
+    echo "  \$GIT_DIR/hooks/bundle" >> .git/hooks/post-checkout
+    echo "fi" >> .git/hooks/post-checkout
+    [ -z "$new" ] || .git/hooks/bundle
+  fi
+
+  # Execute an setup script for the project if it exists
+  if [ -n "$new" -a -x script/setup ]; then
+    script/setup
+  fi
+}
