@@ -15,14 +15,12 @@ shopt -s globstar autocd
 EDITOR=vim
 VISUAL="$EDITOR"
 GIT_EDITOR="$EDITOR"
+GEM_EDITOR="$EDITOR"
 CLICOLOR=1
 LS_COLORS='di=31:ln=34:ex=32'
 
-# Initialize rbenv
-eval "$("${HOME}/.rbenv/bin/rbenv" init -)"
-
 # Setup PATH properly
-for dir in /usr/local/bin "${HOME}/local/bin" "${HOME}/.rbenv/bin" "${HOME}/.rbenv/shims" .bundle/bin; do
+for dir in /usr/local/bin "${HOME}/local/bin"; do
   case "$PATH" in
     *:"$dir":*) PATH="$(echo "$PATH"|sed -e "s#:$dir##")"
   esac
@@ -32,8 +30,10 @@ done
 export EDITOR VISUAL GIT_EDITOR CLICOLOR LS_COLORS
 
 # shortcuts
-alias bundle-init='bundle install --path=.bundle/gems --binstubs=.bundle/bin'
 alias tmux="TERM=screen-256color tmux -2"
 alias ls='ls --color=auto'
 
 [ -f "${HOME}/.projectrc" ] && source "${HOME}/.projectrc"
+
+# Load RVM into a shell session *as a function*
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" 

@@ -1,0 +1,2 @@
+--type-add html=.haml,.erb
+--type-set cucumber=.feature

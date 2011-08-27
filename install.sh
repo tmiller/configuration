@@ -8,6 +8,8 @@ ln -fs "${dir}/.tmux.conf" "${HOME}/.tmux.conf"
 ln -fs "${dir}/.gitconfig" "${HOME}/.gitconfig"
 ln -fs "${dir}/.vimrc" "${HOME}/.vimrc"
 ln -fs "${dir}/.cvsignore" "${HOME}/.cvsignore"
+ln -fs "${dir}/.ackrc" "${HOME}/.ackrc"
+ln -fs "${dir}/.gemrc" "${HOME}/.gemrc"
 
 if [ $(uname) == 'Darwin' ]; then
   ln -fs "${dir}/.osx.bashrc" "${HOME}/.osx.bashrc"
@@ -16,7 +18,7 @@ elif [ $(uname) == 'Linux' ]; then
   ln -fs "${dir}/.Xresources" "${HOME}/.Xresources"
 fi
 
-[ -d "${HOME}/local/bin" ] && mkdir -p "${HOME}/local/bin"
+[ -d "${HOME}/bin" ] || mkdir -p "${HOME}/bin/"
 for binary in ${dir}/bin/*; do
-  ln -fs "${binary}" "${HOME}/local/bin/"
+  cp "${binary}" "${HOME}/bin/"
 done

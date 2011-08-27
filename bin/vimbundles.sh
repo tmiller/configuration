@@ -22,6 +22,7 @@ get_bundle vim-ruby vim-ruby
 get_bundle tpope vim-rails
 get_bundle tpope vim-rake
 get_bundle tpope vim-cucumber
+get_bundle tpope vim-bundler
 get_bundle tpope vim-haml
 get_bundle tpope vim-markdown
 get_bundle tpope vim-pathogen
