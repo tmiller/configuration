@@ -35,8 +35,9 @@ set incsearch
 set ruler
 set number
 set list
-set listchars=tab:>\ ,trail:~
+set listchars=tab:>\ ,trail:~,extends:>,precedes:<,nbsp:+
 set laststatus=2
+set showbreak=>>>
 
 " Tab completion
 set wildmode=list:longest,full
