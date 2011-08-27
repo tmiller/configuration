@@ -11,26 +11,36 @@ pcd() {
 }
 
 pclone() {
-  local url basename example new
+ local url project_name example new hook
+
+  # Use basename of url or second argument for project name
+  if [ -n "$2" ]; then
+    project_name="$2"
+  else
+    project_name="`basename $1 .git`"
+  fi
 
   # Clone the repository if it exists
-  basename="`basename $1 .git`"
-  if [ ! -d "$PROJECT_DIR/$basename" ]; then
+  if [ ! -d "$PROJECT_DIR/$project_name" ]; then
     new=1
     case "$1" in
       *:*) url="$1" ;;
       */*) url="git@github.com:${1}.git" ;;
       *)   url="git@github.com:${DEFAULT_GIT_REPOT}/${1}.git" ;;
     esac
-    git clone "$url" "$PROJECT_DIR/$basename" || return 1
-    for example in "$PROJECT_DIR/$basename"/config/*.example.yml; do
+
+    git clone "$url" "$PROJECT_DIR/$project_name" || return 1
+
+    for example in "$PROJECT_DIR/$project_name"/config/*.example.yml; do
       cp "$example" "${example%.example.yml}.yml"
     done 2>/dev/null
-    if [ -f "$PROJECT_DIR/$basename/.rvmrc" ] && command -v __rvm_trust_rvmrc >/dev/null; then
-      __rvm_trust_rvmrc "$PROJECT_DIR/$basename/.rvmrc"
+
+    # Use RVM if it exists
+    if [ -f "$PROJECT_DIR/$project_name/.rvmrc" ] && command -v __rvm_trust_rvmrc >/dev/null; then
+      __rvm_trust_rvmrc "$PROJECT_DIR/$project_name/.rvmrc"
     fi
   fi
-  pcd "$basename"
+  pcd "$project_name"
 
   # Execute after merge on rebase causing ctags to run
   if [ ! -f .git/hooks/post-rewrite ]; then
@@ -54,10 +64,10 @@ pclone() {
     echo 'rm -f .git/tags' >> .git/hooks/ctags
     echo 'ctags --tag-relative -f .git/tags --exclude=.git --exclude=.bundle --exclude=db --exclude=public/uploads --exclude=vendor --exclude=tmp --languages=-javascript,html,sql -R' >> .git/hooks/ctags
     chmod +x .git/hooks/ctags
-    for basename in post-checkout post-commit post-merge; do
-      echo '#!/bin/sh' > .git/hooks/$basename
-      echo '$GIT_DIR/hooks/ctags >/dev/null 2>&1 &' >> .git/hooks/$basename
-      chmod +x .git/hooks/$basename
+    for hook in post-checkout post-commit post-merge; do
+      echo '#!/bin/sh' > .git/hooks/$hook
+      echo '$GIT_DIR/hooks/ctags >/dev/null 2>&1 &' >> .git/hooks/$hook
+      chmod +x .git/hooks/$hook
     done
     .git/hooks/ctags
   fi
@@ -68,7 +78,7 @@ pclone() {
     echo 'unset GIT_DIR' >> .git/hooks/bundle
     echo 'if [ -f Gemfile ] && command -v bundle >>/dev/null; then' >> .git/hooks/bundle
     echo '  echo 'Bundling...'' >> .git/hooks/bundle
-    echo '  bundle check >>/dev/null || bundle | grep -v '^Using ' | grep -v ' is complete'' >> .git/hooks/bundle
+    echo '  bundle check >/dev/null || bundle | grep -v '^Using ' | grep -v ' is complete'' >> .git/hooks/bundle
     echo '  true' >> .git/hooks/bundle
     echo 'fi' >> .git/hooks/bundle
     chmod +x .git/hooks/bundle
@@ -85,3 +95,150 @@ pclone() {
     script/setup
   fi
 }
+
+# Tab completion
+if [ -n "$BASH_VERSION" ]; then
+  _pcd()
+  {
+    local cur projects
+
+    [ -r "$PROJECT_DIR" ] || return 0
+
+    eval 'COMPREPLY=()'
+    cur=${COMP_WORDS[COMP_CWORD]}
+    projects=$(\ls "$PROJECT_DIR")
+
+    if [ $COMP_CWORD -eq 1 ]; then
+      eval 'COMPREPLY=( $(compgen -o filenames -W "$projects" $cur) )'
+    fi
+
+    return 0
+  }
+  complete -F _pcd pcd pclone
+elif [ -n "$ZSH_VERSION" ]; then
+  #compdef '_files -W "$PROJECT_DIR"' pcd pclone
+  compctl -/ -W "$PROJECT_DIR" pcd pclone
+fi
+
+# Used for rails funcions
+rails_root() {
+  (
+  dir=${1:-$(pwd)}
+  i=0
+  while [ "/" != "$dir" -a "$i" -ne 16 ]; do
+    if [ -f "$dir/config/environment.rb" ]; then
+      echo "$dir"
+      return 0
+    fi
+    dir="$(dirname "$dir")"
+    i=$(expr $i + 1)
+  done
+  return 1
+  )
+}
+
+stc() {
+  (
+  local root
+  root="`rails_root`"
+  [ -n "$root" ] || root=.
+  if [ "$root/config/amazon_s3.yml" -nt "$root/tmp/s3cfg" ] || [ -f "$root/config/amazon_s3.yml" -a ! -f "$root/tmp/s3cfg" ]; then
+    ruby -ryaml -e '
+    c = YAML.load(File.read(ARGV.first))[ENV["RAILS_ENV"]||"development"]
+    File.open(ARGV.last,"w") do |f|
+    f.puts "access_key = #{c["access_key_id"]}"
+    f.puts "secret_key = #{c["secret_access_key"]}"
+    end if c.kind_of?(Hash)
+    ' "$root/config/amazon_s3.yml" "$root/tmp/s3cfg"
+  fi
+  if [ -f "$root/tmp/s3cfg" ]; then
+    exec s3cmd -c "$root/tmp/s3cfg" "$@"
+  else
+    exec s3cmd "$@"
+  fi
+  )
+}
+
+script_rails() {
+  if [ -f "`rails_root`/script/rails" ]; then
+    "`rails_root`/script/rails" "$@"
+  else
+    local name
+    name="$1"
+    shift
+    "`rails_root`/script/$name" "$@"
+  fi
+}
+
+twiki () {
+  rake db:migrate && rake db:migrate:redo && rake db:test:prepare
+}
+
+sc () {
+  if command -v pry >/dev/null; then
+    RACK_ENV="${1:-development}" pry -r "$(rails_root)/config/environment"
+  else
+    script_rails console "$@"
+  fi
+}
+
+alias ss='script_rails server -u'
+alias sdbc='script_rails dbconsole -p'
+
+# git_prompt_info accepts 0 or 1 arguments (i.e., format string)
+# returns text to add to bash PS1 prompt (includes branch name)
+git_prompt_info () {
+  local g="$(git rev-parse --git-dir 2>/dev/null)"
+  if [ -n "$g" ]; then
+    local r
+    local b
+    local d
+    local s
+    # Rebasing
+    if [ -d "$g/rebase-apply" ] ; then
+      if test -f "$g/rebase-apply/rebasing" ; then
+        r="|REBASE"
+      fi
+      b="$(git symbolic-ref HEAD 2>/dev/null)"
+    # Interactive rebase
+    elif [ -f "$g/rebase-merge/interactive" ] ; then
+      r="|REBASE-i"
+      b="$(cat "$g/rebase-merge/head-name")"
+    # Merging
+    elif [ -f "$g/MERGE_HEAD" ] ; then
+      r="|MERGING"
+      b="$(git symbolic-ref HEAD 2>/dev/null)"
+    else
+      if [ -f "$g/BISECT_LOG" ] ; then
+        r="|BISECTING"
+      fi
+      if ! b="$(git symbolic-ref HEAD 2>/dev/null)" ; then
+        if ! b="$(git describe --exact-match HEAD 2>/dev/null)" ; then
+          b="$(cut -c1-7 "$g/HEAD")..."
+        fi
+      fi
+    fi
+
+    # Dirty Branch
+    local newfile='?? '
+    if [ -n "$ZSH_VERSION" ]; then
+      newfile='\?\? '
+    fi
+    d=''
+    s=$(git status --porcelain 2> /dev/null)
+    [[ $s =~ "$newfile" ]] && d+='+'
+    [[ $s =~ "M " ]] && d+='*'
+    [[ $s =~ "D " ]] && d+='-'
+
+    if [ -n "${1-}" ]; then
+      printf "$1" "${b##refs/heads/}$r$d"
+    else
+      printf "(%s) " "${b##refs/heads/}$r$d"
+    fi
+  fi
+}
+
+alias gc='git commit -v'
+alias gca='git commit -a -v'
+alias gst='git status'
+alias gpr='git pull --rebase'
