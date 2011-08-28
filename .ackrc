@@ -1,2 +1,8 @@
---type-add html=.haml,.erb
---type-set cucumber=.feature
+--type-add
+html=.haml,.erb
+
+--type-set
+cucumber=.feature
+
+--ignore-dir=doc
+--ignore-dir=pkg
