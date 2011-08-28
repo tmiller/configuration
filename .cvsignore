@@ -26,3 +26,5 @@ tramp
 /.bundle
 .rbenv-version
 .rvmrc
+doc/
+.yardoc
