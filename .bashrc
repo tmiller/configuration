@@ -20,7 +20,7 @@ CLICOLOR=1
 LS_COLORS='di=31:ln=34:ex=32'
 
 # Setup PATH properly
-for dir in /usr/local/bin "${HOME}/local/bin"; do
+for dir in /usr/local/bin "${HOME}/bin"; do
   case "$PATH" in
     *:"$dir":*) PATH="$(echo "$PATH"|sed -e "s#:$dir##")"
   esac
