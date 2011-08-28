@@ -1,3 +1,8 @@
+!=======================================================
+! Colors
+!=======================================================
+
+! Primary
 xterm*background: #242424
 xterm*foreground: #e3e0d7
 
@@ -32,3 +37,9 @@ xterm*color14: #00ffff
 ! Light Grey / White
 xterm*color7: #9c998e
 xterm*color15: #e3e0d7
+
+!=======================================================
+! Configuration
+!=======================================================
+
+xterm*metaSendsEscape: true
