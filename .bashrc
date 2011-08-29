@@ -18,6 +18,8 @@ GIT_EDITOR="$EDITOR"
 GEM_EDITOR="$EDITOR"
 CLICOLOR=1
 LS_COLORS='di=31:ln=34:ex=32'
+LSCOLORS='di=31:ln=34:ex=32'
+TERM=xterm-256color
 
 # Setup PATH properly
 for dir in /usr/local/bin "${HOME}/bin"; do
@@ -30,11 +32,14 @@ done
 [ -z "$PS1" ] || stty -ixon
 [ -z "$PS1" ] || export PS1="\[\033[0;32m\]\u\[\033[00m\]:\[\033[0;34m\]\w\[\033[00m\]\$(git_prompt_info '(%b)')$ "
 
-export EDITOR VISUAL GIT_EDITOR CLICOLOR LS_COLORS
+export EDITOR VISUAL GIT_EDITOR CLICOLOR LS_COLORS TERM LSCOLORS
 
 # shortcuts
 alias tmux="TERM=screen-256color tmux -2"
-alias ls='ls --color=auto'
+alias gc='git commit -v'
+alias gca='git commit -a -v'
+alias gst='git status'
+alias gpr='git pull --rebase'
 
 [ -f "${HOME}/.projectrc" ] && source "${HOME}/.projectrc"
 

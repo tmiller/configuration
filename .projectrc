@@ -77,12 +77,12 @@ pclone() {
     echo '#!/bin/sh' > .git/hooks/bundle
     echo 'unset GIT_DIR' >> .git/hooks/bundle
     echo 'if [ -f Gemfile ] && command -v bundle >>/dev/null; then' >> .git/hooks/bundle
-    echo '  echo 'Bundling...'' >> .git/hooks/bundle
-    echo '  bundle check >/dev/null || bundle | grep -v '^Using ' | grep -v ' is complete'' >> .git/hooks/bundle
-    echo '  true' >> .git/hooks/bundle
-    echo 'fi' >> .git/hooks/bundle
+    echo "  echo 'Bundling...'" >> .git/hooks/bundle
+    echo "  bundle check >/dev/null || bundle | grep -v '^Using ' | grep -v ' is complete'" >> .git/hooks/bundle
+    echo "  true" >> .git/hooks/bundle
+    echo "fi" >> .git/hooks/bundle
     chmod +x .git/hooks/bundle
-    echo 'if command -v hookup >/dev/null; then' >> .git/hooks/post-checkout
+    echo "if command -v hookup >/dev/null; then" >> .git/hooks/post-checkout
     echo '  hookup post-checkout "$@"' >> .git/hooks/post-checkout
     echo "elif git diff --name-only \$1 \$2 | egrep -q '^Gemfile|\\.gemspec\$'; then" >> .git/hooks/post-checkout
     echo "  \$GIT_DIR/hooks/bundle" >> .git/hooks/post-checkout
