@@ -40,7 +40,7 @@ alias gca='git commit -a -v'
 alias gst='git status'
 alias gpr='git pull --rebase'
 
-[ -f "${HOME}/.projectrc" ] && source "${HOME}/.projectrc"
+[[ -s "${HOME}/.projectrc" ]] && source "${HOME}/.projectrc"
 
 # Load RVM into a shell session *as a function*
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" 
