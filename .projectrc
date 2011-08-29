@@ -42,6 +42,17 @@ pclone() {
   fi
   pcd "$project_name"
 
+
+  # Execute an setup script for the project if it exists
+  if [ -n "$new" -a -x script/setup ]; then
+    script/setup
+  fi
+}
+
+setup-git-hooks() {
+
+  [ ! -d .git ] && return 0;
+
   # Execute after merge on rebase causing ctags to run
   if [ ! -f .git/hooks/post-rewrite ]; then
     echo '#!/bin/sh' > .git/hooks/post-rewrite
@@ -88,11 +99,6 @@ pclone() {
     echo "  \$GIT_DIR/hooks/bundle" >> .git/hooks/post-checkout
     echo "fi" >> .git/hooks/post-checkout
     [ -z "$new" ] || .git/hooks/bundle
-  fi
-
-  # Execute an setup script for the project if it exists
-  if [ -n "$new" -a -x script/setup ]; then
-    script/setup
   fi
 }
 
@@ -237,8 +243,3 @@ git_prompt_info () {
     fi
   fi
 }
-
-alias gc='git commit -v'
-alias gca='git commit -a -v'
-alias gst='git status'
-alias gpr='git pull --rebase'

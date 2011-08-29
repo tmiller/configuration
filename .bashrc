@@ -18,7 +18,6 @@ GIT_EDITOR="$EDITOR"
 GEM_EDITOR="$EDITOR"
 CLICOLOR=1
 LS_COLORS='di=31:ln=34:ex=32'
-LSCOLORS='di=31:ln=34:ex=32'
 TERM=xterm-256color
 
 # Setup PATH properly
