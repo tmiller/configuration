@@ -22,3 +22,6 @@ fi
 for binary in ${dir}/bin/*; do
   cp "${binary}" "${HOME}/bin/"
 done
+
+mdkir -p "${HOME}/.vim/{bundles,backups,swaps,undo}"
+exec "${dir}/bin/vimbundles.sh"

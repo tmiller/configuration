@@ -1,6 +1,6 @@
 #!/bin/sh
-mkdir -p ~/.vim/bundles
-cd ~/.vim/bundles
+mkdir -p "${HOME}/.vim/bundles"
+cd "${HOME}/.vim/bundles"
 
 get_bundle() {
   (
