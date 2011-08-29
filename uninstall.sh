@@ -11,6 +11,7 @@ rm "${HOME}/.gemrc"
 
 
 if [ $(uname) == 'Darwin' ]; then
+  rm "${HOME}/.bash_profile"
   rm "${HOME}/.osx.bashrc"
 elif [ $(uname) == 'Linux' ]; then
   rm "${HOME}/.linux.bashrc"

@@ -12,6 +12,7 @@ ln -fs "${dir}/.ackrc" "${HOME}/.ackrc"
 ln -fs "${dir}/.gemrc" "${HOME}/.gemrc"
 
 if [ $(uname) == 'Darwin' ]; then
+  ln -fs "${dir}/.bash_profile" "${HOME}/.bash_profile"
   ln -fs "${dir}/.osx.bashrc" "${HOME}/.osx.bashrc"
 elif [ $(uname) == 'Linux' ]; then
   ln -fs "${dir}/.linux.bashrc" "${HOME}/.linux.bashrc"
