@@ -54,8 +54,10 @@ set hidden
 set history=1000
 set undolevels=1000
 
-" Backup
-set directory=$VIM_BACKUP,~/.vim/backup,.
+" Backup Directories
+set backupdir=$VIM_BACKUP,~/.vim/backups,.
+set directory=$VIM_SWAP,~/.vim/swaps,.
+set undodir=$VIM_UNDO,~/.vim/undo,.
 
 
 "=============================================
