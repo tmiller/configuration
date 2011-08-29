@@ -57,7 +57,9 @@ set undolevels=1000
 " Backup Directories
 set backupdir=$VIM_BACKUP,~/.vim/backups,.
 set directory=$VIM_SWAP,~/.vim/swaps,.
-set undodir=$VIM_UNDO,~/.vim/undo,.
+if exists('&undodir')
+  set undodir=$VIM_UNDO,~/.vim/undo,.
+endif
 
 
 "=============================================
