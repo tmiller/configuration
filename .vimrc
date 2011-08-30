@@ -19,12 +19,6 @@ set noerrorbells
 set visualbell
 set t_vb=
 
-" Tab
-set tabstop=2
-set softtabstop=2
-set shiftwidth=2
-set expandtab
-
 " Search
 set ignorecase
 set smartcase
@@ -95,3 +89,24 @@ nnoremap <localleader>ts m`:%s/\s\+$//e<CR>``
 xmap gc \\
 nmap gc \\
 nmap gcc \\\
+
+"=============================================
+" File specific settings
+"=============================================
+augroup FiletypeOptions
+  autocmd!
+  autocmd FileType sh,bash,zsh        setlocal autoindent expandtab smarttab shiftwidth=4 softtabstop=4
+  autocmd FileType c,cpp,cs,java      setlocal autoindent expandtab smarttab shiftwidth=4 softtabstop=4 cin
+  autocmd FileType python,perl        setlocal autoindent expandtab smarttab shiftwidth=4 softtabstop=4
+  autocmd FileType ruby,haml,eruby    setlocal autoindent expandtab smarttab shiftwidth=2 softtabstop=2
+  autocmd FileType yaml,html,json     setlocal autoindent expandtab smarttab shiftwidth=2 softtabstop=2
+  autocmd FileType xml,xsd,xslt       setlocal autoindent expandtab smarttab shiftwidth=2 softtabstop=2
+  autocmd FileType javascript,coffee  setlocal autoindent expandtab smarttab shiftwidth=2 softtabstop=2
+  autocmd FileType cucumber           setlocal autoindent expandtab smarttab shiftwidth=2 softtabstop=2
+  autocmd FileType scss,sass,css      setlocal autoindent expandtab smarttab shiftwidth=2 softtabstop=2
+  autocmd FileType yaml,html,xml      setlocal autoindent expandtab smarttab shiftwidth=2 softtabstop=2
+  autocmd FileType vim                setlocal autoindent expandtab smarttab shiftwidth=2 softtabstop=2
+  autocmd FileType sh,zsh,csh,tcsh    inoremap <silent> <buffer> <C-X>! #!/bin/<C-R>=&ft<CR>
+  autocmd FileType perl,python,ruby   inoremap <silent> <buffer> <C-X>! #!/usr/bin/<C-R>=&ft<CR>
+augroup END
+
