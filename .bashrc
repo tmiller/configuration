@@ -34,7 +34,6 @@ done
 export EDITOR VISUAL GIT_EDITOR CLICOLOR LS_COLORS TERM LSCOLORS
 
 # shortcuts
-alias tmux="TERM=screen-256color tmux -2"
 alias gc='git commit -v'
 alias gca='git commit -a -v'
 alias gst='git status'

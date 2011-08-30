@@ -61,6 +61,8 @@ if exists('&undodir')
   set undodir=$VIM_UNDO,~/.vim/undo,.
 endif
 
+" Fix backspace
+set backspace=indent,eol,start
 
 "=============================================
 " Remaps
