@@ -1,28 +1,28 @@
 #!/bin/bash
 
-dir=$(pwd)
+DIR="$( cd "$(dirname "$0" )" && pwd )"
 
-ln -fs "${dir}/.bashrc" "${HOME}/.bashrc"
-ln -fs "${dir}/.projectrc" "${HOME}/.projectrc"
-ln -fs "${dir}/.tmux.conf" "${HOME}/.tmux.conf"
-ln -fs "${dir}/.gitconfig" "${HOME}/.gitconfig"
-ln -fs "${dir}/.vimrc" "${HOME}/.vimrc"
-ln -fs "${dir}/.cvsignore" "${HOME}/.cvsignore"
-ln -fs "${dir}/.ackrc" "${HOME}/.ackrc"
-ln -fs "${dir}/.gemrc" "${HOME}/.gemrc"
+ln -fs "${DIR}/.bashrc" "${HOME}/.bashrc"
+ln -fs "${DIR}/.projectrc" "${HOME}/.projectrc"
+ln -fs "${DIR}/.tmux.conf" "${HOME}/.tmux.conf"
+ln -fs "${DIR}/.gitconfig" "${HOME}/.gitconfig"
+ln -fs "${DIR}/.vimrc" "${HOME}/.vimrc"
+ln -fs "${DIR}/.cvsignore" "${HOME}/.cvsignore"
+ln -fs "${DIR}/.ackrc" "${HOME}/.ackrc"
+ln -fs "${DIR}/.gemrc" "${HOME}/.gemrc"
 
 if [ $(uname) == 'Darwin' ]; then
-  ln -fs "${dir}/.bash_profile" "${HOME}/.bash_profile"
-  ln -fs "${dir}/.osx.bashrc" "${HOME}/.osx.bashrc"
+  ln -fs "${DIR}/.bash_profile" "${HOME}/.bash_profile"
+  ln -fs "${DIR}/.osx.bashrc" "${HOME}/.osx.bashrc"
 elif [ $(uname) == 'Linux' ]; then
-  ln -fs "${dir}/.linux.bashrc" "${HOME}/.linux.bashrc"
-  ln -fs "${dir}/.Xresources" "${HOME}/.Xresources"
+  ln -fs "${DIR}/.linux.bashrc" "${HOME}/.linux.bashrc"
+  ln -fs "${DIR}/.Xresources" "${HOME}/.Xresources"
 fi
 
 [ -d "${HOME}/bin" ] || mkdir -p "${HOME}/bin/"
-for binary in ${dir}/bin/*; do
+for binary in ${DIR}/bin/*; do
   cp "${binary}" "${HOME}/bin/"
 done
 
-mdkir -p "${HOME}/.vim/{bundles,backups,swaps,undo}"
-exec "${dir}/bin/vimbundles.sh"
+mkdir -p "${HOME}/.vim/{bundles,backups,swaps,undo}"
+exec "${DIR}/bin/vimbundles.sh"

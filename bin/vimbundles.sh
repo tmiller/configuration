@@ -38,5 +38,6 @@ get_bundle tpope vim-fugitive
 get_bundle gregsexton gitv
 get_bundle jgdavey vim-blockle
 get_bundle tmiller wombat256.vim
+get_bundle mattn gist-vim
 
 vim -c 'call pathogen#helptags()|q'
