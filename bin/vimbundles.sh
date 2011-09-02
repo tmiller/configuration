@@ -44,6 +44,7 @@ get_bundle mattn gist-vim
 get_bundle garbas vim-snipmate
 get_bundle tomtom tlib_vim
 get_bundle MarcWeber vim-addon-mw-utils
-get_bundle honza snipmate-snippets
+# I can define my own snippets
+# get_bundle honza snipmate-snippets
 
 vim -c 'call pathogen#helptags()|q'
