@@ -40,4 +40,10 @@ get_bundle jgdavey vim-blockle
 get_bundle tmiller wombat256.vim
 get_bundle mattn gist-vim
 
+# All for snipmate
+get_bundle garbas vim-snipmate
+get_bundle tomtom tlib_vim
+get_bundle MarcWeber vim-addon-mw-utils
+get_bundle honza snipmate-snippets
+
 vim -c 'call pathogen#helptags()|q'

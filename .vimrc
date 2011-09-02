@@ -90,6 +90,7 @@ xmap gc \\
 nmap gc \\
 nmap gcc \\\
 
+
 "=============================================
 " File specific settings
 "=============================================
@@ -105,7 +106,7 @@ augroup FiletypeOptions
   autocmd FileType cucumber           setlocal autoindent expandtab smarttab shiftwidth=2 softtabstop=2
   autocmd FileType scss,sass,css      setlocal autoindent expandtab smarttab shiftwidth=2 softtabstop=2
   autocmd FileType yaml,html,xml      setlocal autoindent expandtab smarttab shiftwidth=2 softtabstop=2
-  autocmd FileType vim, gitconfig     setlocal autoindent expandtab smarttab shiftwidth=2 softtabstop=2
+  autocmd FileType vim,gitconfig      setlocal autoindent expandtab smarttab shiftwidth=2 softtabstop=2
   autocmd FileType sh,zsh,csh,tcsh    inoremap <silent> <buffer> <C-X>! #!/bin/<C-R>=&ft<CR>
   autocmd FileType perl,python,ruby   inoremap <silent> <buffer> <C-X>! #!/usr/bin/<C-R>=&ft<CR>
 augroup END
