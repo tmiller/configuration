@@ -26,4 +26,7 @@ if [ -d "${HOME}/bin" ]; then
   done
 fi
 
-rm -rf ${HOME}/.vim/{bundles,backups,swaps,undo}
+rm -rf "${HOME}/.vim/bundles"
+rm -rf "${HOME}/.vim/backups"
+rm -rf "${HOME}/.vim/swaps"
+rm -rf "${HOME}/.vim/undo"
