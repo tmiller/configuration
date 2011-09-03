@@ -31,7 +31,7 @@ done
 #[ -z "$PS1" ] || stty -ixon
 [ -z "$PS1" ] || export PS1="\[\033[0;32m\]\u\[\033[00m\]:\[\033[0;34m\]\w\[\033[00m\]\$(git_prompt_info '(%b)')$ "
 
-export EDITOR VISUAL GIT_EDITOR CLICOLOR LS_COLORS TERM LSCOLORS
+export EDITOR VISUAL GIT_EDITOR CLICOLOR LS_COLORS TERM
 
 # shortcuts
 alias gc='git commit -v'
