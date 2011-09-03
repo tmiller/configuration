@@ -24,8 +24,6 @@ tramp
 
 # Ruby preferences
 /.bundle
-.rbenv-version
-.rvmrc
 doc/
 .yardoc/*
 coverage/*
