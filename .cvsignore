@@ -27,4 +27,5 @@ tramp
 .rbenv-version
 .rvmrc
 doc/
-.yardoc
+.yardoc/*
+coverage/*
