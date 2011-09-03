@@ -13,9 +13,9 @@ ln -fs "${DIR}/.gemrc" "${HOME}/.gemrc"
 
 if [ $(uname) == 'Darwin' ]; then
   ln -fs "${DIR}/.bash_profile" "${HOME}/.bash_profile"
-  ln -fs "${DIR}/.osx.bashrc" "${HOME}/.osx.bashrc"
+  ln -fs "${DIR}/.bashrc.osx" "${HOME}/.bashrc.osx"
 elif [ $(uname) == 'Linux' ]; then
-  ln -fs "${DIR}/.linux.bashrc" "${HOME}/.linux.bashrc"
+  ln -fs "${DIR}/.bashrc.linux" "${HOME}/.bashrc.linux"
   ln -fs "${DIR}/.Xresources" "${HOME}/.Xresources"
 fi
 
