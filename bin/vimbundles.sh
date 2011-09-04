@@ -19,6 +19,7 @@ get_bundle godlygeek tabular
 get_bundle mileszs ack.vim
 get_bundle pangloss vim-javascript
 get_bundle vim-ruby vim-ruby
+get_bundle depuracao vim-rdoc
 get_bundle tpope vim-rails
 get_bundle tpope vim-rake
 get_bundle tpope vim-cucumber
