@@ -32,6 +32,7 @@ set list
 set listchars=tab:>\ ,trail:~,extends:>,precedes:<,nbsp:+
 set laststatus=2
 set showbreak=>>>
+set nowrap
 
 " Tab completion
 set wildmode=list:longest,full
