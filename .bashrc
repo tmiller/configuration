@@ -21,7 +21,7 @@ LS_COLORS='di=31:ln=34:ex=32'
 TERM=xterm-256color
 
 # Setup PATH properly
-for dir in /usr/local/bin "${HOME}/bin"; do
+for dir in /usr/local/bin /usr/local/Cellar/python "${HOME}/bin"; do
   case "$PATH" in
     *:"$dir":*) PATH="$(echo "$PATH"|sed -e "s#:$dir##")"
   esac
