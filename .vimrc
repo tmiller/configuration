@@ -11,7 +11,8 @@ filetype plugin indent on
 
 " Color
 set t_Co=256
-colorscheme wombat256mod
+"colorscheme wombat256mod
+colorscheme solarized
 syntax on
 
 " Shut the hell up and leave me alone
