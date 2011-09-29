@@ -63,12 +63,6 @@ setup-git-hooks() {
     echo 'esac' >> .git/hooks/post-rewrite
   fi
 
-  # Run bundle check before commit
-  #if [ ! -f .git/hooks/pre-commit ]; then
-  #  echo '#!/bin/sh' > .git/hooks/pre-commit
-  #  echo 'git diff --exit-code --cached -- Gemfile Gemfile.lock >/dev/null || bundle check' >> .git/hooks/pre-commit
-  #fi
-
   # Automatically run ctags after checkout commit and merge
   if [ ! -f .git/hooks/ctags ]; then
     echo '#!/bin/sh' > .git/hooks/ctags
@@ -82,24 +76,6 @@ setup-git-hooks() {
     done
     .git/hooks/ctags
   fi
-
-  # Automatically run bundle after checkout
-  #if [ ! -f .git/hooks/bundle ]; then
-  #  echo '#!/bin/sh' > .git/hooks/bundle
-  #  echo 'unset GIT_DIR' >> .git/hooks/bundle
-  #  echo 'if [ -f Gemfile ] && command -v bundle >>/dev/null; then' >> .git/hooks/bundle
-  #  echo "  echo 'Bundling...'" >> .git/hooks/bundle
-  #  echo "  bundle check >/dev/null || bundle | grep -v '^Using ' | grep -v ' is complete'" >> .git/hooks/bundle
-  #  echo "  true" >> .git/hooks/bundle
-  #  echo "fi" >> .git/hooks/bundle
-  #  chmod +x .git/hooks/bundle
-  #  echo "if command -v hookup >/dev/null; then" >> .git/hooks/post-checkout
-  #  echo '  hookup post-checkout "$@"' >> .git/hooks/post-checkout
-  #  echo "elif git diff --name-only \$1 \$2 | egrep -q '^Gemfile|\\.gemspec\$'; then" >> .git/hooks/post-checkout
-  #  echo "  \$GIT_DIR/hooks/bundle" >> .git/hooks/post-checkout
-  #  echo "fi" >> .git/hooks/post-checkout
-  #  [ -z "$new" ] || .git/hooks/bundle
-  #fi
 }
 
 # Tab completion
