@@ -50,7 +50,7 @@ prepend_path "${HOME}/bin" /usr/local/bin
 append_path "${HOME}/.sm/bin" "${HOME}/.sm/pkg/active/bin" "${HOME}/.sm/pkg/active/sbin" /usr/local/Cellar/python
 
 #[ -z "$PS1" ] || stty -ixon
-[ -z "$PS1" ] || export PS1="\[\033[34m\]\u\[\033[00m\]:\[\033[36m\]\w\[\033[00m\]\$(git_prompt_info '(%b)')$ "
+[ -z "$PS1" ] || export PS1="\[\033[34m\]\u\[\033[00m\]:\[\033[36m\]\W\[\033[00m\]\$(git_prompt_info '(%b)')$ "
 
 export EDITOR VISUAL GIT_EDITOR CLICOLOR LS_COLORS TERM
 
