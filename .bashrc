@@ -44,7 +44,6 @@ GIT_EDITOR="$EDITOR"
 GEM_EDITOR="$EDITOR"
 CLICOLOR=1
 LS_COLORS='di=31:ln=34:ex=32'
-TERM=xterm-256color
 
 prepend_path "${HOME}/bin" /usr/local/bin
 append_path "${HOME}/.sm/bin" "${HOME}/.sm/pkg/active/bin" "${HOME}/.sm/pkg/active/sbin" /usr/local/Cellar/python

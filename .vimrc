@@ -11,7 +11,6 @@ filetype plugin indent on
 
 " Color
 set t_Co=256
-"colorscheme wombat256mod
 colorscheme solarized
 set background=dark
 syntax on
