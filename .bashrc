@@ -59,6 +59,7 @@ alias gc='git commit -v'
 alias gca='git commit -a -v'
 alias gst='git status'
 alias gpr='git pull --rebase'
+alias ldate='date +"%a %b %d, %Y %r"'
 
 # Load correct configuration for environment
 if [[ $(uname) == 'Darwin' && -f "${HOME}/.bashrc.osx" ]]; then
