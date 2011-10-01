@@ -1,10 +1,11 @@
 !!=======================================================
 !! Configuration
 !!=======================================================
-!
+
 xterm*metaSendsEscape: true
 xterm*faceName: Inconsolata Medium Mono
 xterm*faceSize: 10
+xterm*selectToClipboard: true
 
 
 !! drop in Solarized colorscheme for Xresources/Xdefaults
