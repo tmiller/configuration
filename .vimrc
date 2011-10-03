@@ -96,6 +96,11 @@ nmap gcc \\\
 "=============================================
 " File specific settings
 "=============================================
+augroup Filetypes
+  autocmd!
+  autocmd BufNewFile,BufRead *.json set ft=javascript
+augroup END
+
 augroup FiletypeOptions
   autocmd!
   autocmd FileType sh,bash,zsh        setlocal autoindent expandtab smarttab shiftwidth=4 softtabstop=4
