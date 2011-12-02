@@ -60,6 +60,13 @@ endif
 " Fix backspace
 set backspace=indent,eol,start
 
+" GUI options
+if (has('gui_running'))
+  set guifont=Inconsolata-dz:h13
+  set guioptions-=T
+  set guioptions-=m
+endif
+
 "=============================================
 " Remaps
 "=============================================
