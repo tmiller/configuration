@@ -3,7 +3,6 @@
 rm "${HOME}/.bashrc"
 rm "${HOME}/.projectrc"
 rm "${HOME}/.tmux.conf"
-rm "${HOME}/.gitconfig"
 rm "${HOME}/.vimrc"
 rm "${HOME}/.cvsignore"
 rm "${HOME}/.ackrc"
